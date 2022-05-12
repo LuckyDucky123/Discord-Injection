@@ -538,7 +538,7 @@ const PaypalAdded = async (token) => {
           },
           {
             name: "**Billing:**",
-            value: "PayPal Added,
+            value: "PayPal Added",
             inline: true,
           },
         ],

